@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="CustomTutorialTheme" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:background">#FFF</item>
+
+    </style>
+</resources>
