@@ -27,8 +27,8 @@ public class TutorialsCardActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.CustomTutorialTheme);
         setContentView(R.layout.activity_tutroials_card);
-
         this.entries = (ArrayList<TutorialEntry>) getIntent().getSerializableExtra("entries");
         this.setTheme(R.style.CustomTutorialTheme);
         switcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
