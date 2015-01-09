@@ -3,6 +3,8 @@ package com.andrew749.tutorialcardlibrary;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
@@ -48,7 +51,16 @@ public class TutorialsCardActivity extends Activity implements View.OnClickListe
             }
         });
 
+        // Gesture detection
+        gestureDetector = new GestureDetector(this, new SwipeGestureDetector());
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        };
 
+        // Do this for each view added to the grid
+        switcher.setOnTouchListener(gestureListener);
     }
 
     public void nextImage() {
@@ -78,6 +90,9 @@ public class TutorialsCardActivity extends Activity implements View.OnClickListe
             switcher.setImageResource(entries.get(--index).image);
             descriptionText.setText(entries.get(index).description);
         }
+        if (index < entries.size() - 1) {
+            next.setText("Next");
+        }
 
 
     }
@@ -90,5 +105,36 @@ public class TutorialsCardActivity extends Activity implements View.OnClickListe
             nextImage();
         else if (id == R.id.previousButton)
             previousImage();
+    }
+
+    //From https://stackoverflow.com/questions/937313/android-basic-gesture-detection
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private GestureDetector gestureDetector;
+    View.OnTouchListener gestureListener;
+
+    class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // right to left swipe
+                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    nextImage();
+                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    previousImage();
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
     }
 }

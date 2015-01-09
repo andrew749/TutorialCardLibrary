@@ -18,9 +18,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ArrayList<TutorialEntry> entries = new ArrayList<TutorialEntry>();
-        entries.add(new TutorialEntry(R.drawable.ic_launcher, "Hello"));
-        entries.add(new TutorialEntry(R.drawable.ic_launcher, "Big"));
-        entries.add(new TutorialEntry(R.drawable.ic_launcher, "Boy"));
+        entries.add(new TutorialEntry(R.drawable.ic_launcher, "This is TutorialCardLibrary"));
+        entries.add(new TutorialEntry(R.drawable.ic_launcher, "This is another card"));
+        entries.add(new TutorialEntry(R.drawable.ic_launcher, "And another one!"));
         Intent intent = new Intent(getApplicationContext(), com.andrew749.tutorialcardlibrary.TutorialsCardActivity.class);
         intent.putExtra("entries", entries);
 
